@@ -68,7 +68,7 @@ github.com/aws/aws-sdk-go/service/sts
 github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/beorn7/perks v1.0.1
 github.com/beorn7/perks/quantile
-# github.com/billziss-gh/cgofuse v1.2.0
+# github.com/billziss-gh/cgofuse v1.2.1-0.20191004024825-8e41a0ce969b
 github.com/billziss-gh/cgofuse/fuse
 # github.com/cespare/xxhash/v2 v2.1.1
 github.com/cespare/xxhash/v2
