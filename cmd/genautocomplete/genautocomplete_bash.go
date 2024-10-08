@@ -1,10 +1,11 @@
 package genautocomplete
 
 import (
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/rclone/rclone/cmd"
+	"github.com/rclone/rclone/fs"
 	"github.com/spf13/cobra"
 )
 
@@ -15,8 +16,7 @@ func init() {
 var bashCommandDefinition = &cobra.Command{
 	Use:   "bash [output_file]",
 	Short: `Output bash completion script for rclone.`,
-	Long: `
-Generates a bash shell autocompletion script for rclone.
+	Long: `Generates a bash shell autocompletion script for rclone.
 
 By default, when run without any arguments, 
 
@@ -51,7 +51,7 @@ current shell.
 			if args[0] == "-" {
 				err := cmd.Root.GenBashCompletionV2(os.Stdout, false)
 				if err != nil {
-					log.Fatal(err)
+					fs.Fatal(nil, fmt.Sprint(err))
 				}
 				return
 			}
@@ -59,7 +59,7 @@ current shell.
 		}
 		err := cmd.Root.GenBashCompletionFileV2(out, false)
 		if err != nil {
-			log.Fatal(err)
+			fs.Fatal(nil, fmt.Sprint(err))
 		}
 	},
 }

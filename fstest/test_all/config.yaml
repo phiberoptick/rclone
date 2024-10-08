@@ -137,6 +137,12 @@ backends:
  #   remote:   "TestFileFabric:"
  #   fastlist: false
  #   extratime: 2.0
+ - backend:  "gofile"
+   remote:   "TestGoFile:"
+   fastlist: true
+ - backend:  "filescom"
+   remote:   "TestFilesCom:"
+   fastlist: false
  - backend:  "googlecloudstorage"
    remote:   "TestGoogleCloudStorage:"
    fastlist: true
@@ -389,6 +395,10 @@ backends:
  - backend:  "cache"
    remote:   "TestCache:"
    fastlist: false
+   ignoretests:
+     - TestBisyncLocalRemote
+     - TestBisyncRemoteLocal
+     - TestBisyncRemoteRemote
  - backend:  "mega"
    remote:   "TestMega:"
    fastlist: false
@@ -416,6 +426,7 @@ backends:
      - TestCaseInsensitiveMoveFile
      - TestFixCase
      - TestListDirSorted        # Can't upload files starting with . - FIXME fix with encoding
+     - TestSyncOverlapWithFilter # Can't upload files starting with . - FIXME fix with encoding
  - backend:  "premiumizeme"
    remote:   "TestPremiumizeMe:"
    fastlist: false
@@ -491,4 +502,7 @@ backends:
    fastlist: false
  - backend:  "ulozto"
    remote:   "TestUlozto:"
+   fastlist: false
+ - backend:  "iclouddrive"
+   remote:   "TestICloudDrive:"
    fastlist: false

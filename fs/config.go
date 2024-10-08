@@ -41,7 +41,7 @@ var (
 	//
 	// This is a function pointer to decouple the config
 	// implementation from the fs
-	CountError = func(err error) error { return err }
+	CountError = func(ctx context.Context, err error) error { return err }
 
 	// ConfigProvider is the config key used for provider options
 	ConfigProvider = "provider"
@@ -70,7 +70,7 @@ var ConfigOptionsInfo = Options{{
 	Name:     "checksum",
 	ShortOpt: "c",
 	Default:  false,
-	Help:     "Check for changes with size & checksum (if available, or fallback to size only).",
+	Help:     "Check for changes with size & checksum (if available, or fallback to size only)",
 	Groups:   "Copy",
 }, {
 	Name:    "size_only",

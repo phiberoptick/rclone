@@ -115,6 +115,19 @@ Create a new DWORD BasicAuthLevel with value 2.
 
 https://learn.microsoft.com/en-us/office/troubleshoot/powerpoint/office-opens-blank-from-sharepoint
 
+### Serving over a unix socket
+
+You can serve the webdav on a unix socket like this:
+
+    rclone serve webdav --addr unix:///tmp/my.socket remote:path
+
+and connect to it like this using rclone and the webdav backend:
+
+    rclone --webdav-unix-socket /tmp/my.socket --webdav-url http://localhost lsf :webdav:
+
+Note that there is no authentication on http protocol - this is expected to be
+done by the permissions on the socket.
+
 ` + libhttp.Help(flagPrefix) + libhttp.TemplateHelp(flagPrefix) + libhttp.AuthHelp(flagPrefix) + vfs.Help() + proxy.Help,
 	Annotations: map[string]string{
 		"versionIntroduced": "v1.39",
@@ -336,6 +349,7 @@ func (w *WebDAV) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // serveDir serves a directory index at dirRemote
 // This is similar to serveDir in serve http.
 func (w *WebDAV) serveDir(rw http.ResponseWriter, r *http.Request, dirRemote string) {
+	ctx := r.Context()
 	VFS, err := w.getVFS(r.Context())
 	if err != nil {
 		http.Error(rw, "Root directory not found", http.StatusNotFound)
@@ -348,7 +362,7 @@ func (w *WebDAV) serveDir(rw http.ResponseWriter, r *http.Request, dirRemote str
 		http.Error(rw, "Directory not found", http.StatusNotFound)
 		return
 	} else if err != nil {
-		serve.Error(dirRemote, rw, "Failed to list directory", err)
+		serve.Error(ctx, dirRemote, rw, "Failed to list directory", err)
 		return
 	}
 	if !node.IsDir() {
@@ -359,7 +373,7 @@ func (w *WebDAV) serveDir(rw http.ResponseWriter, r *http.Request, dirRemote str
 	dirEntries, err := dir.ReadDirAll()
 
 	if err != nil {
-		serve.Error(dirRemote, rw, "Failed to list directory", err)
+		serve.Error(ctx, dirRemote, rw, "Failed to list directory", err)
 		return
 	}
 
